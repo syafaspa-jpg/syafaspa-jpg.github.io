@@ -1,0 +1,337 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syafa' Massage - Pijat Relaksasi dan Kesehatan</title>
+    
+    <!-- Menghubungkan ke Font Awesome untuk ikon layanan & sosial media -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Menghubungkan ke Google Fonts untuk font judul yang indah -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Gaya Umum --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #faf0e6; /* Warna background cream */
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a1887f' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            
+            /* PERUBAHAN: Tambahkan transisi untuk perubahan warna background yang halus */
+            transition: background-color 0.5s ease;
+            animation: breathe 10s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { background-color: #faf0e6; }
+            50% { background-color: #f5eadc; }
+        }
+
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 0 20px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1, h2 {
+            color: #5d4037;
+        }
+
+        /* --- Elemen Melayang (Hiasan) --- */
+        .floating-element {
+            position: fixed;
+            opacity: 0.1;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .floating-element.leaf-1 { width: 40px; height: 40px; background-color: #a1887f; border-radius: 0 100% 0 100%; top: 20%; animation: float-leaf 25s infinite linear; }
+        .floating-element.leaf-2 { width: 30px; height: 30px; background-color: #8d6e63; border-radius: 100% 0 100% 0; top: 60%; animation: float-leaf 30s infinite linear reverse; }
+        .floating-element.petal { width: 25px; height: 25px; background-color: #bcaaa4; border-radius: 50% 0; top: 80%; animation: float-petal 20s infinite linear; }
+        .floating-element.leaf-3 { width: 35px; height: 35px; background-color: #a1887f; border-radius: 0 100% 0 100%; top: 40%; animation: float-sine 35s infinite ease-in-out; }
+        .floating-element.leaf-4 { width: 45px; height: 45px; background-color: #8d6e63; border-radius: 100% 0 100% 0; top: 10%; animation: float-sine 40s infinite ease-in-out reverse; animation-delay: -10s; }
+        .floating-element.leaf-5 { width: 20px; height: 20px; background-color: #bcaaa4; border-radius: 0 100% 0 100%; top: 70%; animation: float-sine 45s infinite ease-in-out; animation-delay: -20s; }
+
+        @keyframes float-leaf { from { transform: translateX(-100px) rotate(0deg); } to { transform: translateX(calc(100vw + 100px)) rotate(360deg); } }
+        @keyframes float-petal { from { transform: translateX(calc(100vw + 100px)) rotate(0deg); } to { transform: translateX(-100px) rotate(-360deg); } }
+        @keyframes float-sine { 0% { transform: translateX(-100px) translateY(0px) rotate(0deg); } 25% { transform: translateX(25vw) translateY(-20px) rotate(90deg); } 50% { transform: translateX(50vw) translateY(10px) rotate(180deg); } 75% { transform: translateX(75vw) translateY(-15px) rotate(270deg); } 100% { transform: translateX(calc(100vw + 100px)) translateY(0px) rotate(360deg); } }
+        
+        @keyframes bounce-scale { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* --- Modal (Pop-up) --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); animation: fadeIn 0.3s; }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 30px; border: 1px solid #f0e6dc; border-radius: 15px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: slideIn 0.4s; position: relative; }
+        .close { color: #aaa; position: absolute; top: 15px; right: 25px; font-size: 35px; font-weight: bold; transition: color 0.2s; }
+        .close:hover, .close:focus { color: #5d4037; text-decoration: none; cursor: pointer; }
+        .modal-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+        .modal-header h2 { margin: 0; font-family: 'Playfair Display', serif; color: #4e342e; }
+        .modal-body p { text-align: justify; }
+        .modal-footer { margin-top: 25px; text-align: center; }
+        .whatsapp-btn { background-color: #25D366; color: white; padding: 12px 25px; border: none; border-radius: 50px; font-size: 1em; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .whatsapp-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- Header --- */
+        .main-header { 
+            text-align: center; 
+            padding: 60px 0; 
+            border-bottom: 1px solid #6D4C41; /* PERUBAHAN: Warna border yang lebih selaras */
+            position: relative; 
+            
+            /* PERUBAHAN: Tambahkan background coklat */
+            background-color: #4E342E; 
+        }
+
+        .main-header h1 { 
+            font-size: 3.5em; 
+            margin: 0; 
+            font-weight: 700; 
+            font-family: 'Playfair Display', serif; 
+            position: relative; 
+            z-index: 1; 
+            
+            /* PERUBAHAN: Ganti warna font menjadi hijau keemasan */
+            color: #A4B844; 
+        }
+
+        .main-header h1::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            
+            /* PERUBAHAN: Ganti warna logo belakang menjadi hijau keemasan */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23A4B844"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-8.31c.67 0 1.21.54 1.21 1.21s-.54 1.21-1.21 1.21-1.21-.54-1.21-1.21.54-1.21 1.21-1.21z"/></svg>');
+            
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        /* --- Bagian Lainnya (Tentang, Layanan, Kontak, Footer) --- */
+        #about { padding: 40px 0; text-align: center; }
+        #about h2 { font-size: 2.5em; margin-bottom: 20px; font-family: 'Dancing Script', cursive; font-weight: 500; }
+        #about h2::before { content: '❀'; margin-right: 10px; color: #a1887f; font-size: 0.8em; vertical-align: middle; }
+        #about p { font-size: 1.1em; max-width: 800px; margin: auto; text-align: justify; }
+        .section-divider { height: 40px; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23faf0e6" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); background-size: cover; background-repeat: no-repeat; margin: 20px 0; }
+        #services { padding: 40px 0 60px; background-color: #fff; }
+        #services .section-title { text-align: center; font-size: 2.5em; margin-bottom: 40px; font-family: 'Dancing Script', cursive; font-weight: 500; }
+        #services .section-title::before { content: '❀'; margin-right: 10px; color: #a1887f; font-size: 0.8em; vertical-align: middle; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .service-card { background: #fdfbf7; border: 1px solid #f0e6dc; border-radius: 10px; padding: 30px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; cursor: pointer; }
+        .service-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.12); border-color: #a1887f; }
+        .service-icon { font-size: 3em; color: #a1887f; margin-bottom: 15px; transition: color 0.3s ease; }
+        .service-card:hover .service-icon { color: #5d4037; animation: bounce-scale 0.6s ease-in-out; }
+        .service-card h3 { font-size: 1.3em; margin: 10px 0 0; color: #5d4037; }
+        #contact { background-color: #f0e6dc; color: #4e342e; padding: 40px 0; text-align: center; }
+        #contact h2 { font-size: 2.5em; margin-bottom: 20px; font-family: 'Dancing Script', cursive; font-weight: 500; }
+        #contact h2::before { content: '❀'; margin-right: 10px; color: #5d4037; font-size: 0.8em; vertical-align: middle; }
+        .contact-info { font-size: 1.1em; margin: 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .contact-info i { color: #5d4037; font-size: 1.2em; }
+        .main-footer { text-align: center; padding: 20px; background-color: #5d4037; color: #fff; font-size: 0.9em; }
+        .main-footer p { margin: 5px 0; }
+        .main-footer a { color: #fff; text-decoration: none; transition: color 0.3s ease; }
+        .main-footer a:hover { color: #d7ccc8; }
+        .instagram-link { font-size: 1.2em; }
+        .instagram-link i { margin-right: 8px; }
+    </style>
+</head>
+<body>
+
+    <!-- Hiasan: Elemen Melayang -->
+    <div class="floating-element leaf-1"></div>
+    <div class="floating-element leaf-2"></div>
+    <div class="floating-element petal"></div>
+    <div class="floating-element leaf-3"></div>
+    <div class="floating-element leaf-4"></div>
+    <div class="floating-element leaf-5"></div>
+
+    <header class="main-header">
+        <div class="container">
+            <h1>Syafa' Massage</h1>
+        </div>
+    </header>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <h2>Tentang Syafa' Massage</h2>
+                <p>
+                    Selamat datang di Syafa' Massage, sebuah suaka ketenangan di tengah kesibukan Anda. Kami bukan sekadar tempat pijat, melainkan sebuah perjalanan holistik menuju kesehatan dan keseimbangan batin. Didirikan dengan komitmen untuk menghadirkan sentuhan penyembuhan yang autentik, Syafa' Massage menggabungkan teknik tradisional yang telah teruji dengan pemahaman modern mengenai anatomi dan kesehatan tubuh. Setiap terapis kami adalah seorang profesional yang tidak hanya terampil, tetapi juga memiliki empati untuk mendengarkan kebutuhan unik Anda. Kami menggunakan minyak esensial pilihan dan menciptakan lingkungan yang tenang, dari aroma terapi yang menenangkan hingga alunan musik yang lembut, untuk memastikan setiap kunjungan adalah pelarian sempurna dari stres. Di Syafa' Massage, kami percaya bahwa kesejahteraan sejati berasal dari harmoni antara tubuh, pikiran, dan jiwa. Mari kami bantu Anda menemukannya kembali melalui sentuhan yang tulus dan penuh perhatian.
+                </p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="services">
+            <div class="container">
+                <h2 class="section-title">Layanan Kami</h2>
+                <div class="services-grid">
+                    <!-- Kartu layanan dengan data untuk modal -->
+                    <div class="service-card" data-service="Javanese Massage" data-description="Pijat tradisional Jawa yang menggunakan tekanan kuat dan gerakan memijat yang mengikuti alur darah. Teknik ini efektif untuk melancarkan peredaran darah, menghilangkan nyeri otot yang dalam, dan memberikan rasa rileks total. Seringkali diakhiri dengan rempah herbal untuk memaksimalkan manfaat terapeutik.">
+                        <div class="service-icon"><i class="fa-solid fa-spa"></i></div>
+                        <h3>Javanese Massage</h3>
+                    </div>
+                    <div class="service-card" data-service="Refleksiology" data-description="Terapi pijat yang fokus pada titik-titik refleks di telapak kaki atau tangan. Setiap titik diyakini terhubung dengan organ dan sistem tertentu di dalam tubuh. Dengan memberikan tekanan pada titik-titik ini, refleksologi membantu menyembuhkan berbagai keluhan, meningkatkan energi, dan memulihkan keseimbangan tubuh secara keseluruhan.">
+                        <div class="service-icon"><i class="fa-solid fa-shoe-prints"></i></div>
+                        <h3>Refleksiology</h3>
+                    </div>
+                    <div class="service-card" data-service="Face Acupressure" data-description="Pijat ringan pada wajah yang menstimulasi titik-titik akupresur. Manfaatnya meliputi meningkatkan sirkulasi darah wajah untuk kulit lebih bercahaya, mengencangkan otot wajah, mengurangi ketegangan dan sakit kepala, serta memberikan efek relaksasi yang mendalam.">
+                        <div class="service-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
+                        <h3>Face Acupressure</h3>
+                    </div>
+                    <div class="service-card" data-service="Scrub" data-description="Perawatan eksfoliasi tubuh yang menggunakan bahan scrub alami (seperti gula, garam, atau kopi) untuk mengangkat sel kulit mati. Proses ini membuat kulit terasa lebih halus, lembut, dan tampak lebih cerah. Scrub juga membuka pori-pori sehingga nutrisi dari produk perawatan selanjutnya dapat terserap lebih maksimal.">
+                        <div class="service-icon"><i class="fa-solid fa-soap"></i></div>
+                        <h3>Scrub</h3>
+                    </div>
+                    <div class="service-card" data-service="Kidz and Baby Massage" data-description="Pijat lembut yang dirancang khusus untuk anak-anak dan bayi. Manfaatnya sangat besar, antara lain meningkatkan ikatan emosional orang tua dan anak, membantu bayi tidur lebih nyenyak, meredakan kolik, dan mendukung pertumbuhan dan perkembangan fisik bayi.">
+                        <div class="service-icon"><i class="fa-solid fa-baby"></i></div>
+                        <h3>Kidz and Baby Massage</h3>
+                    </div>
+                    <div class="service-card" data-service="Pregnancy Massage" data-description="Pijat aman dan nyaman untuk ibu hamil. Tekniknya disesuaikan untuk mengatasi ketidaknyamanan selama kehamilan seperti nyeri punggung, bengkak pada kaki, dan kelelahan. Pijat ini membantu calon ibu untuk bersantai, mengurangi stres, dan mempersiapkan tubuh untuk proses melahirkan.">
+                        <div class="service-icon"><i class="fa-solid fa-person-pregnant"></i></div>
+                        <h3>Pregnancy Massage</h3>
+                    </div>
+                    <div class="service-card" data-service="Post Partum Massage" data-description="Perawatan pijat penting bagi ibu setelah melahirkan. Fokusnya adalah untuk membantu pemulihan tubuh, mengencangkan kembali otot-otot yang kendur, mengatasi kelelahan, membantu melancarkan ASI, dan menyeimbangkan kembali hormon.">
+                        <div class="service-icon"><i class="fa-solid fa-hands"></i></div>
+                        <h3>Post Partum Massage</h3>
+                    </div>
+                    <div class="service-card" data-service="Cupping Therapy" data-description="Terapi bekam kuno yang menggunakan cangkir untuk menghisap kulit. Teknik ini digunakan untuk mengeluarkan racun (toxin) dari dalam tubuh, melancarkan peredaran darah, meredakan nyeri otot kronis, dan mengobati masalah pernapasan seperti batuk dan asma.">
+                        <div class="service-icon"><i class="fa-solid fa-circle"></i></div>
+                        <h3>Cupping Therapy</h3>
+                    </div>
+                    <div class="service-card" data-service="Laktasi" data-description="Pijat khusus area payudara untuk ibu menyusui. Tujuannya adalah untuk membantu melancarkan aliran ASI, mencegah dan mengatasi sumbatan ASI (mastitis), serta meredakan nyeri. Terapis yang terlatih akan memijat dengan lembut dan teknik yang benar untuk kenyamanan ibu dan bayi.">
+                        <div class="service-icon"><i class="fa-solid fa-droplet"></i></div>
+                        <h3>Laktasi</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Info Lebih Lanjut</h2>
+                <div class="contact-info">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Jl. Cagar Alam Depok</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>081290937077</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>syafaspa@gmail.com</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal (Pop-up) untuk Detail Layanan -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <p id="modal-description"></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="whatsapp-link" class="whatsapp-btn" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Pesan via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>Project by: rifda syamil</p>
+        <p>
+            <a href="https://www.instagram.com/rifd4u/" target="_blank" class="instagram-link">
+                <i class="fa-brands fa-instagram"></i> @rifd4u
+            </a>
+        </p>
+        <p>&copy; 2024 Syafa' Massage. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Backsound -->
+    <audio id="bg-music" autoplay loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-duvet.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- JavaScript untuk Interaktivitas Modal dan Background -->
+    <script>
+        // Mendapatkan elemen-elemen yang dibutuhkan
+        const modal = document.getElementById("serviceModal");
+        const modalTitle = document.getElementById("modal-title");
+        const modalDescription = document.getElementById("modal-description");
+        const whatsappLink = document.getElementById("whatsapp-link");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        const serviceCards = document.querySelectorAll(".service-card");
+
+        // Nomor WhatsApp dalam format internasional
+        const phoneNumber = "6281290937077";
+
+        // Warna background asli dan warna saat klik
+        const originalBgColor = '#faf0e6';
+        const clickedBgColor = '#eaddcf'; // Warna coklat santai
+
+        // Menambahkan event listener ke setiap kartu layanan
+        serviceCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Mengambil data dari atribut data-* pada kartu yang diklik
+                const serviceName = this.getAttribute('data-service');
+                const serviceDescription = this.getAttribute('data-description');
+
+                // Mengisi konten modal dengan data yang diambil
+                modalTitle.textContent = serviceName;
+                modalDescription.textContent = serviceDescription;
+
+                // Membuat link WhatsApp dengan pesan yang sudah diisi
+                const message = encodeURIComponent(`Halo Syafa' Massage, saya tertarik untuk memesan layanan: ${serviceName}. Mohon informasikan ketersediaan jadwal dan harga. Terima kasih.`);
+                whatsappLink.href = `https://wa.me/${phoneNumber}?text=${message}`;
+
+                // PERUBAHAN: Ubah warna background menjadi coklat santai
+                document.body.style.backgroundColor = clickedBgColor;
+
+                // Menampilkan modal
+                modal.style.display = "block";
+            });
+        });
+
+        // Fungsi untuk menutup modal dan mengembalikan warna background
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.backgroundColor = originalBgColor; // Kembalikan ke warna asli
+        }
+
+        // Fungsi untuk menutup modal saat tombol 'x' diklik
+        closeBtn.onclick = closeModal;
+
+        // Fungsi untuk menutup modal saat pengguna mengklik di luar area modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
